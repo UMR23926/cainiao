@@ -1,7 +1,6 @@
 package com.example.ruangong_login;
 
 
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -32,7 +32,43 @@ public class MainActivity extends ActionBarActivity {
 		register = (Button) findViewById(R.id.register);// 查看结果按钮
 		account = (EditText) findViewById(R.id.account);// 账号
 		pwd = (EditText) findViewById(R.id.password);// 密码
-		login.setOnClickListener(new OnClickListener() {// 登录按钮监听
+		
+		
+		
+		/*
+		 * 测试是否连接成功
+		 */
+		Connection connection = null;
+        java.sql.Statement stat = null;
+        ResultSet rs = null;
+        try {
+        	Class.forName("com.mysql.jdbc.Driver");//连接驱动
+            String url = "jdbc:mysql://192.168.43.168:3306/game";
+            String username="root";
+            String password="root";
+            connection = DriverManager.getConnection(url,username,password);
+            stat = connection.createStatement();
+            
+            String sql="select uaccount from myInfo";
+            rs = stat.executeQuery(sql);
+            while(rs.next()) {
+            			//System.out.println(rs.next());
+                		//使用Toast.makeText()方法来产生Toast信息
+                		Toast.makeText(MainActivity.this,"nihao", Toast.LENGTH_LONG).show();
+            	
+            	}
+		} catch (Exception e) {
+			//使用Toast.makeText()方法来产生Toast信息
+    		Toast.makeText(MainActivity.this,"连接失败", Toast.LENGTH_LONG).show();
+		}
+            
+		
+		
+		
+		/*
+		 * 登录按钮监听
+		 */
+		login.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 		        Connection connection = null;
 		        java.sql.Statement stat = null;
@@ -45,29 +81,34 @@ public class MainActivity extends ActionBarActivity {
 		            connection = DriverManager.getConnection(url,username,password);
 		            stat = connection.createStatement();
 		            
-		            String sql="select pwd from myInfo where account='"+account +"'";
+		            String sql="select pwd from myInfo where uaccount='"+account +"'";
 	                rs = stat.executeQuery(sql);
 	                if(rs.next()) {
 	                	if(rs.getString(1).equals(pwd)) {
-	                		Intent intent = new Intent(MainActivity.this, MainInterface.class);// 界面跳转;
+	                		Toast.makeText(MainActivity.this, "正在跳转...", Toast.LENGTH_LONG).show();
+	                		Intent intent = new Intent(MainActivity.this, MainInterface.class);// 登陆成功，界面跳转;
 		    				startActivity(intent);
 		    				finish();
 	                    	}
 	                    	else {
-	                    		JOptionPane.showMessageDialog(null,"账号或密码不正确！","错误",JOptionPane.ERROR_MESSAGE);
-	                        	response.sendRedirect("login.html");  //返回登录页面
+	                    		//使用Toast.makeText()方法来产生Toast信息
+	                    		Toast.makeText(MainActivity.this, "账号或密码错误！", Toast.LENGTH_LONG).show();
+	                    		pwd.setText("");
 	                        }
 	                	
 	                	}
 	                else {
-	                	JOptionPane.showMessageDialog(null,"账号不存在！","错误",JOptionPane.ERROR_MESSAGE);
+	    				Toast.makeText(MainActivity.this, "账号不存在！", Toast.LENGTH_LONG).show();
 	                } 
 		            
 			  } catch (ClassNotFoundException e) {
 		            e.printStackTrace();
 		        } catch (SQLException e) {
 		            e.printStackTrace();
-		        } finally {
+		        } catch (java.sql.SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
 		            try {
 		                if (rs != null) {
 		                    rs.close();
@@ -85,71 +126,29 @@ public class MainActivity extends ActionBarActivity {
 		                }
 		            } catch (SQLException e) {
 		                e.printStackTrace();
-		            }
+		            } catch (java.sql.SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 		        }
 			}
 				
 			
 		});// 按钮点击监听		
 		
-		register.setOnClickListener(new OnClickListener() {// 注册按钮监听
+		
+		
+		
+		/*
+		 * 注册按钮监听
+		 */
+		register.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-		        Connection connection = null;
-		        java.sql.Statement stat = null;
-		        ResultSet rs = null;
-		        try {
-		            Class.forName("com.mysql.jdbc.Driver");//连接驱动
-		            String url = "jdbc:mysql://localhost:3306/game";
-		            String username="root";
-		            String password="root";
-		            connection = DriverManager.getConnection(url,username,password);
-		            stat = connection.createStatement();
-		            
-		            String sql="select pwd from myInfo where account='"+account +"'";
-	                rs = stat.executeQuery(sql);
-	                if(rs.next()) {
-	                	if(rs.getString(1).equals(pwd)) {
-	                		Intent intent = new Intent(MainActivity.this, Register.class);// 界面跳转;
-		    				startActivity(intent);
-		    				finish();
-	                    	}
-	                    	else {
-	                    		JOptionPane.showMessageDialog(null,"账号或密码不正确！","错误",JOptionPane.ERROR_MESSAGE);
-	                        	response.sendRedirect("login.html");  //返回登录页面
-	                        }
-	                }
-	                else {
-	                	JOptionPane.showMessageDialog(null,"账号不存在！","错误",JOptionPane.ERROR_MESSAGE);
-	                }
-		            
-		            
-		        } catch (ClassNotFoundException e) {
-		            e.printStackTrace();
-		        } catch (SQLException e) {
-		            e.printStackTrace();
-		        } finally {
-		            try {
-		                if (rs != null) {
-		                    rs.close();
-		                    rs = null;
-		                }
-
-		                if (stat != null) {
-		                    stat.close();
-		                    rs = null;
-		                }
-
-		                if (connection != null) {
-		                    connection.close();
-		                    connection = null;
-		                }
-		            } catch (SQLException e) {
-		                e.printStackTrace();
-		            }
-		        }
-			}
-				
-			
+		        
+	            Intent intent = new Intent(MainActivity.this, Register.class);// 跳转至注册界面;
+			    startActivity(intent);
+			    finish();
+	        }	
 		});// 按钮点击监听		
 	}
 
