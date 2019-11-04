@@ -8,5 +8,17 @@
     <string name="signin">登录</string>
    <string name="tip_account">请输入注册的账号</string>
    <string name="tip_password">请输入密码</string>
+   <string name="verify">验证</string>
+   <string name="tip_verify">请输入收到的验证码</string>
+   <string name="piPei">匹配模式</string>
+    <string name="friend">好友对战</string>
+    <string name="primary">新手场</string>
+    <string name="medium">中等场</string>
+    <string name="high">高级场</string>
+    <string name="start">声音开启</string>
+    <string name="stop">声音关闭</string>
+    <string name="re_tip_password">请重新输入密码</string>
+    <string name="submit">提交</string>
+    <string name=""></string>
 
 </resources>

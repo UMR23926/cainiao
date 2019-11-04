@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/welcome"
+    android:orientation="vertical"
+    android:screenOrientation="landscape" >
+
+    <ToggleButton
+        android:id="@+id/btn_music"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOn="@string/start" 
+        android:textOff="@string/stop"/>
+    
+
+    <Button
+        android:id="@+id/btn_friend"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:background="@color/seagreen"
+        android:text="@string/friend"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btn_piPer"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:background="@color/seagreen"
+        android:text="@string/piPei"
+        android:textSize="20sp" />
+
+</LinearLayout>
